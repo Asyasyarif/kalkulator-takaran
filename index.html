@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧋 Kalkulator Takaran Minuman </title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+  @keyframes rotateLeftRight {
+        0% { transform: rotate(0deg); }
+        25% { transform: rotate(-10deg); }
+        50% { transform: rotate(10deg); }
+        75% { transform: rotate(10deg); }
+        100% { transform: rotate(0deg); }
+    }
+
+    .rotate-animation {
+        display: inline-block;
+        animation: rotateLeftRight 2s infinite;
+    }
+</style>
+</head>
+<body>
+    <div class="container mt-5 pa-5">
+        <h1 class="mb-4"><span class="emoji">🧋</span> Kalkulator Takaran</h1>
+        <form id="calculator-form">
+            <div id="ingredients">
+  
+            </div>
+            <button type="button" class="btn btn-success" id="addIngredient">Tambah Bahan</button>
+            <div class="form-group mt-4">
+                <label for="totalVolume">Volume Total Resep (ml)</label>
+                <input min="0" type="number" class="form-control" id="totalVolume" placeholder="Masukkan volume total resep" value="0">
+            </div>
+            <div class="form-group">
+                <label for="desiredVolume">Volume yang Diinginkan (ml)</label>
+                <input min="0" type="number" class="form-control" id="desiredVolume" placeholder="Masukkan volume yang diinginkan">
+            </div>
+            <button type="button" class="btn btn-primary" id="calculateButton">Hitung</button>
+        </form>
+        <hr>
+        <h2 class="mt-4">Hasil</h2>
+        <ul id="resultList" class="list-group">
+        </ul>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('h1 .emoji').addClass('rotate-animation');
+            
+            function updateResults() {
+                var totalVolume = parseFloat($('#totalVolume').val());
+                var desiredVolume = parseFloat($('#desiredVolume').val());
+
+                if (desiredVolume > 0) {
+                    var ratio = desiredVolume / totalVolume;
+                    $('#resultList').empty();
+
+                    $('.ingredient').each(function() {
+                        var name = $(this).find('.ingredient-name').val();
+                        var amount = parseFloat($(this).find('.ingredient-amount').val());
+                        var result = (amount * ratio).toFixed(2);
+
+                        $('#resultList').append('<li class="list-group-item">' + name + ': ' + result + ' ml/gr</li>');
+                    });
+                } else {
+                    alert('Masukkan volume yang diinginkan!');
+                }
+            }
+
+            $('#calculateButton').click(function() {
+                updateResults();
+            });
+
+            $('#addIngredient').click(function() {
+                var newIngredient = `
+                    <div class="form-group ingredient">
+                        <label>Nama Bahan</label>
+                        <input type="text" class="form-control ingredient-name" value="Nama bahan">
+                        <label>Takaran (ml atau gr)</label>
+                        <input type="number" class="form-control ingredient-amount" value="0">
+                        <button type="button" class="btn btn-danger remove-ingredient mt-2">Hapus</button>
+                    </div>
+                `;
+                $('#ingredients').append(newIngredient);
+            });
+
+            $(document).on('click', '.remove-ingredient', function() {
+                $(this).closest('.ingredient').remove();
+            });
+        });
+    </script>
+</body>
+</html>
