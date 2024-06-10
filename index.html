@@ -132,7 +132,9 @@
                         Bahan: ${entry.ingredients.map(ing => `${ing.name} (${ing.amount} ml/gr)`).join(', ')}<br>
                         Volume yang Diinginkan: ${entry.desiredVolume} ml<br>
                         Jumlah Cup: ${entry.numberOfCups}<br>
-                        Hasil: ${entry.results.map(res => `${res.name}: ${res.amount} ml/gr`).join(', ')}<br>
+                        <hr>
+                        <strong>Hasil:</strong> ${entry.results.map(res => `${res.name}: ${res.amount} ml/gr`).join(', ')}<br>
+                        <hr>
                         <button type="button" class="btn btn-primary edit-history btn-sm"  data-index="${index}">Ubah</button>
                         <button type="button" class="btn btn-danger delete-history btn-sm" data-index="${index}">Hapus</button>
                     </li>`;
